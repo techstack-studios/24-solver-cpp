@@ -1,66 +1,66 @@
 #include <iostream>
 using namespace std;
 
-int raw[4], pl[4], oper[3], cnt = 0; //oper:0 addition, 1 subtraction, 2 multiplication, 3 division
+int input[4], process[4], operator[3], cnt = 0;  // Operators: 0 - add, 1 - subtract, 2 - multiply, 3 - divide
 bool visit[13];
 
-void dfs(int t);
-void operdfs(int t);
-void processoper();
+void number_dfs(int t);
+void operator_dfs(int t);
+void caculate();
 
 int main() {
-	for (int i = 0; i < 4; i++) cin >> raw[i];
-	dfs(0);
+	for (int i = 0; i < 4; i++) cin >> input[i];
+	number_dfs(0);
 	return 0;
 }
 
-void dfs(int t) {
+void number_dfs(int t) {
 	if (t == 4) {
-		operdfs(0);
+		operator_dfs(0);
 		return;
 	}
 
 	for (int i = 0; i < 4; i++) {
-		if (!visit[raw[i]]) {
-			pl[t] = raw[i]; visit[raw[i]] = true;
-			dfs(t + 1);
-			visit[raw[i]] = false;
+		if (!visit[input[i]]) {
+			process[t] = input[i]; visit[input[i]] = true;
+			number_dfs(t + 1);
+			visit[input[i]] = false;
 		}
 	}
 }
 
-void operdfs(int t) { //t0=0
+void operator_dfs(int t) { //t0=0
 	if (t == 3) {
-		processoper();
+		caculate();
 		return;
 	}
 	for (int i = 0; i < 4; i++) {
-		oper[t] = i;
-		operdfs(t + 1);
+		operator[t] = i;
+		operator_dfs(t + 1);
 	}
 }
 
-void processoper() {
-	int res = pl[0];
+void caculate() {
+	int res = process[0];
 	for (int i = 0; i < 3; i++) {
-		switch (oper[i]) {
-		case 0: res += pl[i + 1]; break;
-		case 1: res -= pl[i + 1]; break;
-		case 2: res *= pl[i + 1]; break;
-		case 3: res /= pl[i + 1]; break;
+		switch (operator[i]) {
+		case 0: res += process[i + 1]; break;
+		case 1: res -= process[i + 1]; break;
+		case 2: res *= process[i + 1]; break;
+		case 3: res /= process[i + 1]; break;
 		}
 	}
 	if (res == 24) {
 		for (int i = 0; i < 3; i++) {
-			cout << pl[i] << " ";
-			switch (oper[i]) {
+			cout << process[i] << " ";
+			switch (operator[i]) {
 			case 0: cout << "+ "; break;
 			case 1: cout << "- "; break;
 			case 2: cout << "* "; break;
 			case 3: cout << "/ "; break;
 			}
 		}
-		cout << pl[3] << endl;
+		cout << process[3] << endl;
 	}
 	return;
 }
