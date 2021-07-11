@@ -29,7 +29,7 @@ void number_dfs(int t) {
 	}
 }
 
-void operator_dfs(int t) { //t0=0
+void operator_dfs(int t) {
 	if (t == 3) {
 		caculate();
 		return;
