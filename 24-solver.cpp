@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 using namespace std;
 
 int raw[4], pl[4], oper[3], cnt = 0; //oper:0 addition, 1 subtraction, 2 multiplication, 3 division
