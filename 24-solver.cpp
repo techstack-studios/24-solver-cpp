@@ -1,8 +1,9 @@
 #include <iostream>
 using namespace std;
 
-int input[4], process[4], operator[3], cnt = 0;  // Operators: 0 - add, 1 - subtract, 2 - multiply, 3 - divide
-bool visit[13];
+int input[4], process[4], cnt = 0;
+int op[3];  // Operators: 0 - add, 1 - subtract, 2 - multiply, 3 - divide
+bool visit[4];
 
 void number_dfs(int t);
 void operator_dfs(int t);
@@ -21,10 +22,10 @@ void number_dfs(int t) {
 	}
 
 	for (int i = 0; i < 4; i++) {
-		if (!visit[input[i]]) {
-			process[t] = input[i]; visit[input[i]] = true;
+		if (!visit[i]) {
+			process[t] = input[i]; visit[i] = true;
 			number_dfs(t + 1);
-			visit[input[i]] = false;
+			visit[i] = false;
 		}
 	}
 }
@@ -35,7 +36,7 @@ void operator_dfs(int t) {
 		return;
 	}
 	for (int i = 0; i < 4; i++) {
-		operator[t] = i;
+		op[t] = i;
 		operator_dfs(t + 1);
 	}
 }
@@ -43,7 +44,7 @@ void operator_dfs(int t) {
 void caculate() {
 	int res = process[0];
 	for (int i = 0; i < 3; i++) {
-		switch (operator[i]) {
+		switch (op[i]) {
 		case 0: res += process[i + 1]; break;
 		case 1: res -= process[i + 1]; break;
 		case 2: res *= process[i + 1]; break;
@@ -53,7 +54,7 @@ void caculate() {
 	if (res == 24) {
 		for (int i = 0; i < 3; i++) {
 			cout << process[i] << " ";
-			switch (operator[i]) {
+			switch (op[i]) {
 			case 0: cout << "+ "; break;
 			case 1: cout << "- "; break;
 			case 2: cout << "* "; break;
