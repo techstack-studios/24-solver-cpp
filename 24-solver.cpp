@@ -1,9 +1,10 @@
 #include <iostream>
+
 using namespace std;
 
-int input[4], process[4], cnt = 0;
-int op[3]; // Operators: 0 - add, 1 - subtract, 2 - multiply, 3 - divide
-bool visit[4];
+int numbers[4], sequence[4];
+int operators[3]; // Operators: 0 - add, 1 - subtract, 2 - multiply, 3 - divide
+bool visited[4];
 
 void number_dfs(int t);
 void operator_dfs(int t);
@@ -12,8 +13,10 @@ void caculate();
 int main()
 {
 	for (int i = 0; i < 4; i++)
-		cin >> input[i];
+		cin >> numbers[i];
+
 	number_dfs(0);
+
 	return 0;
 }
 
@@ -27,12 +30,12 @@ void number_dfs(int t)
 
 	for (int i = 0; i < 4; i++)
 	{
-		if (!visit[i])
+		if (!visited[i])
 		{
-			process[t] = input[i];
-			visit[i] = true;
+			sequence[t] = numbers[i];
+			visited[i] = true;
 			number_dfs(t + 1);
-			visit[i] = false;
+			visited[i] = false;
 		}
 	}
 }
@@ -46,29 +49,29 @@ void operator_dfs(int t)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		op[t] = i;
+		operators[t] = i;
 		operator_dfs(t + 1);
 	}
 }
 
 void caculate()
 {
-	int res = process[0];
+	int res = sequence[0];
 	for (int i = 0; i < 3; i++)
 	{
-		switch (op[i])
+		switch (operators[i])
 		{
 		case 0:
-			res += process[i + 1];
+			res += sequence[i + 1];
 			break;
 		case 1:
-			res -= process[i + 1];
+			res -= sequence[i + 1];
 			break;
 		case 2:
-			res *= process[i + 1];
+			res *= sequence[i + 1];
 			break;
 		case 3:
-			res /= process[i + 1];
+			res /= sequence[i + 1];
 			break;
 		}
 	}
@@ -76,8 +79,8 @@ void caculate()
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			cout << process[i] << " ";
-			switch (op[i])
+			cout << sequence[i] << " ";
+			switch (operators[i])
 			{
 			case 0:
 				cout << "+ ";
@@ -93,7 +96,7 @@ void caculate()
 				break;
 			}
 		}
-		cout << process[3] << endl;
+		cout << sequence[3] << endl;
 	}
 	return;
 }
